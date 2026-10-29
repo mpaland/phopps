@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2018, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -25,22 +25,18 @@
 //
 // \brief 'index' route
 //        This route is called when the host is called without any path
-//        This route is invalid and just generates a warning
+//        This route is unused and just generates a warning
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Router, Request, Response, NextFunction } from 'express';
+import { FastifyPluginAsync } from 'fastify';
 
 
-export class Index {
-  router: Router;
+const indexRoute: FastifyPluginAsync = async (app) => {
+  app.get('/', async (request) => {
+    request.log.warn('The default route is unused');
+    return 'Phopps is online, but the default route is unused';
+  });
+};
 
-  constructor() {
-    this.router = Router();
-    // create route
-    this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-      console.warn('The default route is unused');
-      res.send('Phopps is online, but the default route is unused');
-    });
-  }
-}
+export default indexRoute;

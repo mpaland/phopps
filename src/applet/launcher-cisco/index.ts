@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2017, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -27,32 +27,19 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Applet } from '../applet';
-import { Device } from '../../provider/config';
+import { Applet, AppletContext, AppletResult } from '../applet.js';
+import { menuItems } from '../menu/index.js';
 
 
 class Launcher extends Applet {
 
-  render(req: any, res: any, name: string, apppath: string): void {
-    // get device and applet
-    const device: Device = this.getDevice(name);
-    const applet: any = this.getApplet(name, apppath);
-    if (!device || !applet) {
-      res.status(404).end();
-      return;
+  async render(ctx: AppletContext): Promise<AppletResult> {
+    if (!Array.isArray(ctx.applet.opt.item)) {
+      return this.notFound("Launcher at '" + ctx.path + "' has no items");
     }
-
-    const items = [];
-    for (let i = 0; i < applet.opt.item.length; i++) {
-      items[i] = {};
-      items[i].name = applet.opt.item[i].name || "";
-      items[i].url  = typeof applet.opt.item[i].url !== 'undefined' ? applet.opt.item[i].url :
-                      req.protocol + "://" + req.hostname + ":" + this.config.getHost().port + "/applet/" + applet.opt.item[i].applet + "?path=" + apppath + ".opt.item[" + i + "]" + "&name=" + name;
-    }
-
-    res.set('Content-Type', 'text/xml; charset=UTF-8').send(this.xmlobj.IPPhoneMenu(this.xmlobj.getModelSpecs(device.model).vendor, applet.opt.title, applet.opt.prompt, items));
+    return this.xml(ctx, this.xmlobj.IPPhoneMenu(ctx.vendor, ctx.applet.opt.title, ctx.applet.opt.prompt, menuItems(this, ctx)));
   }
 }
 
 // export the launcher applet
-export = new Launcher();
+export default new Launcher();

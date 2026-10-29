@@ -130,8 +130,14 @@
       "incoming_dir"      : "/var/spool/asterisk/voicemail/default/41",
       "outgoing_dir"      : "/var/spool/asterisk/outgoing",
       "outgoing_channel"  : "Local/86",
+      // temp dir for call files, must be on the same filesystem as outgoing_dir
+      "tmp_dir"           : "/var/spool/asterisk/tmp",
+      "callerid"          : "\"Anrufbeantworter\" <vm>",
       "mailbox"           : [ "INBOX", "Old" ],
-      "format"            : "wav"
+      // move played messages from INBOX to Old
+      "mark_read"         : true,
+      // prefix for the call back softkey, like "0" for an outside line
+      "dial_prefix"       : ""
     }
   },
 

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2018, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -23,76 +23,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-// \brief 'generic' route for all services
+// \brief 'generic' route for all phone services (directory, messages, ...)
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Router, Request, Response, NextFunction } from 'express';
-import { Config } from '../provider/config';
+import { FastifyPluginAsync } from 'fastify';
+import { renderApplet } from '../lib/render.js';
+import { sendResult, baseUrl } from './reply.js';
 
 
-export class Service {
-  private config: Config;
-  public  router: Router;
+export const SERVICES = ['idle', 'messages', 'directory', 'information', 'services', 'help'] as const;
 
-  constructor(service: string) {
-    this.router = Router();
-    this.config = new Config();
+const serviceRoute: FastifyPluginAsync<{ service: string }> = async (app, opts) => {
+  const service = opts.service;
 
-    // create route
-    this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-      const name = req.query.name || req.query.devicename || 'default';
-      console.info(name + " (" + req.ip + ") requests service '" + service + "'");
-      // get device
-      const device = this.config.getDevice(name);
-      if (typeof device !== 'object') {
-        // device does not exist
-        console.error(name + " not found in config.json configuration");
-        res.status(404).end();
-        return;
-      }
-      // model is mandatory
-      if (typeof device.model !== 'string') {
-        // model does not exist
-        console.error(name + " has no model in config.json configuration");
-        res.status(404).end();
-        return;
-      }
-      // get the phone template
-      const tmpl = this.config.getTemplate(name);
-      if (typeof tmpl !== 'object') {
-        // template does not exist
-        console.error(name + " has no template in config.json configuration");
-        res.status(404).end();
-        return;
-      }
-      // start the according applet
-      if (tmpl.hasOwnProperty(service)) {
-        // service is defined, start the according applet
-        try {
-          if ((service === 'directory') && (tmpl.directory.applet !== 'menu')) {
-            console.warn("You should use the 'menu' applet as directory service, phone will only render IPPhoneMenu");
-          }
-          if (typeof tmpl[service].applet === 'undefined') {
-            console.error("Service '" + service + "' has no applet defined in config.json configuration");
-            res.status(404).end();
-            return;
-          }
-          // render the applet
-          require("../applet/" + tmpl[service].applet.toString() + "/index").render(req, res, req.query.locale, name, service);
-          return;
-        }
-        catch (e) {
-          // applet not found
-          console.log("Applet '" + tmpl[service].applet.toString() + "' error: " + e);
-          res.status(404).end();
-        }
-      }
-      else {
-        // no according service defined
-        console.log("No '" + service + "' entry in template configuration for " + name + " found");
-        res.status(404).end();
-      }
+  app.get<{ Querystring: Record<string, string> }>('/' + service, async (request, reply) => {
+    const name = request.query.name || request.query.devicename || 'default';
+    request.log.info(name + ' (' + request.ip + ") requests service '" + service + "'");
+
+    const tmpl = app.config.getTemplate(name);
+    if (!tmpl || typeof tmpl[service]?.applet !== 'string') {
+      request.log.warn("No '" + service + "' applet in template configuration of " + name);
+      return reply.code(404).send();
+    }
+    if (service === 'directory' && tmpl.directory.applet !== 'menu') {
+      request.log.warn("You should use the 'menu' applet as directory service, phone will only render IPPhoneMenu");
+    }
+    const result = await renderApplet({
+      config:  app.config,
+      device:  name,
+      path:    service,
+      locale:  request.query.locale,
+      query:   request.query,
+      baseUrl: baseUrl(request),
+      root:    app.root
     });
-  }
-}
+    return sendResult(reply, result);
+  });
+};
+
+export default serviceRoute;

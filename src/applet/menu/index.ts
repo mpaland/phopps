@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2017, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -27,29 +27,40 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Applet } from '../applet';
+import { Applet, AppletContext, AppletResult } from '../applet.js';
+import { MenuItem } from '../../lib/xmlobjects.js';
+
+
+/**
+ * Build the menu items of the 'opt.item' list of an applet
+ */
+export function menuItems(applet: Applet, ctx: AppletContext): MenuItem[] {
+  const items: any[] = Array.isArray(ctx.applet.opt.item) ? ctx.applet.opt.item : [];
+  return items.map((item, i): MenuItem => {
+    let url = '';
+    if (typeof item.url === 'string' && typeof item.applet === 'undefined') {
+      // direct URL
+      url = item.url;
+    }
+    else if (typeof item.applet === 'string') {
+      url = applet.url(ctx, item.applet, ctx.path + '.opt.item[' + i + ']');
+    }
+    return {
+      // if no item name is given, the title of the according applet is taken
+      name: item.name || item.opt?.title || item.applet || '',
+      url
+    };
+  });
+}
 
 
 class Menu extends Applet {
 
-  render(req: any, res: any, locale: string, name: string, apppath: string): void {
-    // get device and applet
-    const device: any = this.getDevice(name);
-    const applet: any = this.getApplet(name, apppath);
-    if (!device || !applet) {
-      res.status(404).end();
-      return;
+  async render(ctx: AppletContext): Promise<AppletResult> {
+    if (!Array.isArray(ctx.applet.opt.item)) {
+      return this.notFound("Menu at '" + ctx.path + "' has no items");
     }
-
-    const items: any = [];
-    for (let i = 0; i < applet.opt.item.length; i++) {
-      items[i] = {};
-      items[i].name = applet.opt.item[i].name || '';
-      items[i].url  = typeof applet.opt.item[i].url !== 'undefined' ? applet.opt.item[i].url :
-                      req.protocol + '://' + req.hostname + ':' + this.config.getHost().port + '/applet/' + applet.opt.item[i].applet + '?locale=' + locale + '&name=' + name + '&path=' + apppath + '.opt.item[" + i + "]';
-    }
-
-    res.set('Content-Type', 'text/xml; charset=UTF-8').send(this.xmlobj.IPPhoneMenu(this.xmlobj.getModelSpecs(device.model).vendor, applet.opt.title, applet.opt.prompt, items));
+    return this.xml(ctx, this.xmlobj.IPPhoneMenu(ctx.vendor, ctx.applet.opt.title, ctx.applet.opt.prompt, menuItems(this, ctx)));
   }
 }
 

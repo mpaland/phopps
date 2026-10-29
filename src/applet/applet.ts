@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2018, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -23,43 +23,79 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-// \brief applet base class
+// \brief applet base class and the framework independent applet contract
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import * as resolvePath from 'object-resolve-path';
-import { XmlObj } from '../lib/xmlobjects';
-import { Config, Device } from '../provider/config';
+import { XmlObj, ModelSpecs, Vendor } from '../lib/xmlobjects.js';
+import { Config, Device } from '../provider/config.js';
 
 
-export class Applet {
-  xmlobj: XmlObj;
-  config: Config;
+/**
+ * Everything an applet needs to render, independent of the HTTP framework.
+ * Built from a Fastify request or by the cron scheduler.
+ */
+export interface AppletContext {
+  config:  Config;
+  device:  Device;
+  specs:   ModelSpecs;
+  vendor:  Vendor;
+  applet:  any;                       // the applet configuration from the template
+  name:    string;                    // applet name like 'voicemail'
+  path:    string;                    // applet path in the template like 'directory.opt.item[3]'
+  locale:  string;
+  query:   Record<string, string>;    // request query parameters
+  baseUrl: string;                    // like 'http://192.168.2.125:1080'
+  root:    string;                    // project root directory
+  push:    boolean;                   // true if the result is pushed to the phone (cron)
+}
 
-  constructor() {
-    this.config = new Config();
-    this.xmlobj = new XmlObj();
-  }
+export interface AppletResult {
+  status?:      number;
+  contentType?: string;
+  body?:        string | Buffer;
+}
 
 
-  // wrapper to get the device
-  getDevice(name: string): Device | undefined {
-    return this.config.getDevice(name);
-  }
+export abstract class Applet {
+  readonly xmlobj = new XmlObj();
+
+  abstract render(ctx: AppletContext): Promise<AppletResult>;
 
 
-  // wrapper to get the phone template
-  getTemplate(name: string) {
-    return this.config.getTemplate(name);
-  }
-
-
-  // wrapper to get the applet
-  getApplet(name: string, apppath: string): any {
-    const tmpl = this.getTemplate(name);
-    if (tmpl) {
-      return resolvePath(tmpl, apppath);
+  /**
+   * Build the URL of an applet route, the device name, locale and path are always added
+   * @param ctx Current context
+   * @param applet Applet name
+   * @param path Applet path in the template
+   * @param params Additional query parameters
+   */
+  url(ctx: AppletContext, applet: string, path: string, params: Record<string, string | number> = {}): string {
+    const query = new URLSearchParams({ name: ctx.device.name, locale: ctx.locale, path });
+    for (const [key, value] of Object.entries(params)) {
+      query.set(key, value.toString());
     }
-    return undefined;
+    return ctx.baseUrl + '/applet/' + encodeURIComponent(applet) + '?' + query.toString();
+  }
+
+
+  /**
+   * Return a XML result, or push it to the phone in push mode
+   */
+  async xml(ctx: AppletContext, xml: string): Promise<AppletResult> {
+    if (ctx.push) {
+      if (!ctx.device.ip) {
+        throw new Error("Device '" + ctx.device.name + "' has no IP, push not possible");
+      }
+      await this.xmlobj.push(ctx.vendor, ctx.device.ip, xml, ctx.device.username, ctx.device.password);
+      return { status: 200 };
+    }
+    return { contentType: 'text/xml; charset=utf-8', body: xml };
+  }
+
+
+  notFound(reason: string): AppletResult {
+    console.warn(reason);
+    return { status: 404 };
   }
 }

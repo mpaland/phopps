@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016-2018, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -25,47 +25,38 @@
 //
 // \brief 'authentication' route
 //        This route is called when the device requests authentication
+//        It is needed for the Cisco xmlpush-service authentication,
+//        the URL must return 'ERROR', 'UN-AUTHORIZED' or 'AUTHORIZED'
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Router, Request, Response, NextFunction } from 'express';
-import { Config } from '../provider/config';
+import { FastifyPluginAsync } from 'fastify';
 
 
-/**
- * This is URL is needed for xmlpush-service authentification
- * The default user/pass used by xmlwidgets::push is 'cmeext'
- * This URL should return 'ERROR', 'UN-AUTHORIZED' or 'AUTHORIZED'
- */
-export class Authentication {
-  router: Router;
-
-  constructor() {
-    this.router = Router();
-    // create route
-    this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-      const config = new Config();
-      const name = req.query.name || req.query.devicename || 'default';
-      console.log(name + " (" + req.ip + ") requests authentication");
-      // get device
-      const device = config.getDevice(name);
-      if (typeof device !== 'object') {
-        // device does not exist
-        console.log(name + " not found in config.json configuration");
-        res.send("UN-AUTHORIZED");
-        return;
-      }
-      const user = req.query.UserID;
-      const password = req.query.Password;
-      if ((user === device.username) && (password === device.password)) {
-        console.log("Access authorized");
-        res.send("AUTHORIZED");
-      }
-      else {
-        // wrong user/pass
-        console.log("Access denied");
-        res.send("UN-AUTHORIZED");
-      }
-    });
-  }
+interface AuthQuery {
+  name?:       string;
+  devicename?: string;
+  UserID?:     string;
+  Password?:   string;
 }
+
+const authenticationRoute: FastifyPluginAsync = async (app) => {
+  app.get<{ Querystring: AuthQuery }>('/authenticate', async (request, reply) => {
+    const name = request.query.name || request.query.devicename || 'default';
+    request.log.info(name + ' (' + request.ip + ') requests authentication');
+    reply.type('text/plain');
+
+    const device = app.config.getDevice(name);
+    if (!device) {
+      request.log.warn(name + ' not found in config.json configuration');
+      return 'UN-AUTHORIZED';
+    }
+    if (device.username !== undefined && request.query.UserID === device.username && request.query.Password === device.password) {
+      return 'AUTHORIZED';
+    }
+    request.log.warn('Access denied for ' + name);
+    return 'UN-AUTHORIZED';
+  });
+};
+
+export default authenticationRoute;

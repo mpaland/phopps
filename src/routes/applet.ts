@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // \author (c) Marco Paland (info@paland.com)
-//             2016, PALANDesign Hannover, Germany
+//             2016-2026, PALANDesign Hannover, Germany
 //
 // \license The MIT License (MIT)
 //
@@ -24,26 +24,36 @@
 // THE SOFTWARE.
 //
 // \brief 'applet' route
-//        This route is called when an applet is rendered
-//        The path arg of the route has the format: path=phone['SEP0026CB3B9369'].directory.opt.item[3]
-//        The name arg of the route is:             name=SEP0026CB3B936G
+//        This route is called when an applet is rendered:
+//        /applet/<applet>?name=SEP0026CB3B9369&path=directory.opt.item[3]&locale=de
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-import { Router, Request, Response, NextFunction } from 'express';
+import { FastifyPluginAsync } from 'fastify';
+import { renderApplet } from '../lib/render.js';
+import { sendResult, baseUrl } from './reply.js';
 
-export class Applet {
-  router: Router;
 
-  constructor() {
-    this.router = Router();
-    // create route
-    this.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-      const name = req.query.name || req.query.devicename || "default";
-      const appletpath = req.query.path;
-      const appletname = req.baseUrl.substr(8); // cutoff '/applet/'
-      console.log(name + " (" + req.ip + ") requests '" + appletname + "' on path: " + appletpath);
-      require("../applet/" + appletname + "/index").render(req, res, req.query.locale, name, appletpath);
+const appletRoute: FastifyPluginAsync = async (app) => {
+  app.get<{ Params: { applet: string }; Querystring: Record<string, string> }>('/applet/:applet', async (request, reply) => {
+    const name = request.query.name || request.query.devicename || 'default';
+    const path = request.query.path;
+    request.log.info(name + ' (' + request.ip + ") requests '" + request.params.applet + "' on path: " + path);
+    if (typeof path !== 'string' || path === '') {
+      return reply.code(404).send();
+    }
+    const result = await renderApplet({
+      config:  app.config,
+      device:  name,
+      path,
+      applet:  request.params.applet,
+      locale:  request.query.locale,
+      query:   request.query,
+      baseUrl: baseUrl(request),
+      root:    app.root
     });
-  }
-}
+    return sendResult(reply, result);
+  });
+};
+
+export default appletRoute;
