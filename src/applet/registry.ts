@@ -36,6 +36,7 @@ import menu from './menu/index.js';
 import phonebook from './phonebook/index.js';
 import text from './text/index.js';
 import voicemail from './voicemail/index.js';
+import weather from './weather/index.js';
 
 
 const applets: Record<string, Applet> = {
@@ -46,7 +47,8 @@ const applets: Record<string, Applet> = {
   'menu':             menu,
   'phonebook':        phonebook,
   'text':             text,
-  'voicemail':        voicemail
+  'voicemail':        voicemail,
+  'weather':          weather
 };
 
 
