@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-00000009
+callerid="04480786" <04480786>
+origdate=Fri Jun 15 03:49:57 PM UTC 2018
+origtime=1529077797
+category=
+msg_id=1529077797-00000000
+flag=
+duration=25

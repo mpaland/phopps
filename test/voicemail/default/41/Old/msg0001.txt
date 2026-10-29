@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-00000004
+callerid="Messutat Klaus" <0511528872>
+origdate=Sat Jan  6 04:10:06 PM UTC 2018
+origtime=1515255006
+category=
+msg_id=1515255006-00000000
+flag=
+duration=20

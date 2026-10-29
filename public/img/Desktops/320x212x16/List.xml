@@ -1,0 +1,21 @@
+<CiscoIPPhoneImageList>
+
+<ImageItem Image="flash:/Desktops/TN-CiscoFountain.png" 
+URL="flash:/Desktops/CiscoFountain.png"/> 
+
+<ImageItem Image="flash:/Desktops/TN-NantucketFlowers.png" 
+URL="flash:/Desktops/NantucketFlowers.png"/> 
+
+<ImageItem Image="flash:/Desktops/TN-CampusNight.png" 
+URL="flash:/Desktops/CampusNight.png"/> 
+
+<ImageItem Image="flash:/Desktops/TN-Fountain.png" 
+URL="flash:/Desktops/Fountain.png"/> 
+
+<ImageItem Image="flash:/Desktops/TN-MorroRock.png" 
+URL="flash:/Desktops/MorroRock.png"/> 
+
+<ImageItem Image="flash:/Desktops/TN-CiscoLogo.png" 
+URL="flash:/Desktops/CiscoLogo.png"/> 
+
+</CiscoIPPhoneImageList>

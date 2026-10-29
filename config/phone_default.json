@@ -1,0 +1,40 @@
+// default phone configuration
+{
+  "directory" : {
+  },
+
+  "messages" : {
+  },
+
+  "services" : {
+  },
+
+  "information" : {
+  },
+
+  "help" : {
+    "applet": "imager",
+    "opt": {
+      "url": "http://www.wetteronline.de/daten/radar/dnie/%s/%02u%02u.gif",
+      "urlparam": "date('Y/m/d', time()-600)| (int)date('G', time()-600) - 1| (int)(date('i', time()-600) / 15) * 15",
+      "mode": "stretch,fit,original",
+      "x": "",
+      "y": "",
+      "width": "",
+      "height": "",
+      "zoom": 100,
+      "align": "center"
+    }
+  },
+
+  "idle": {
+    "applet" : "textviewer",
+    "opt": {
+      "url"  : "http://www.paland.de/test.txt",
+      "text" : "This is a demo text"
+    }
+  },
+
+  "cron" : {
+  }
+}

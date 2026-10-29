@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-00000001
+callerid="028347090977" <028347090977>
+origdate=Sat Feb 10 10:53:57 AM UTC 2018
+origtime=1518260037
+category=
+msg_id=1518260037-00000000
+flag=
+duration=15

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<SnomIPPhoneDirectory clearlight="true">
+  <Title>Telefonbuch</Title>
+  <Prompt>Telefonbuch</Prompt>
+  <DirectoryEntry>
+    <Name>Marco</Name>
+    <Telephone>01775553000</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Jana</Name>
+    <Telephone>01773254474</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Gesine</Name>
+    <Telephone>015788422979</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Bianca</Name>
+    <Telephone>015172746106</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Connie</Name>
+    <Telephone>01716949896</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Cornelia</Name>
+    <Telephone>05138503740</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Bettina</Name>
+    <Telephone>015142463531</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Britta</Name>
+    <Telephone>01775974576</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Michael</Name>
+    <Telephone>01797445741</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Sandra</Name>
+    <Telephone>01772729430</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Ayse</Name>
+    <Telephone>01743488343</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Jasmin</Name>
+    <Telephone>015756318040</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Melanie</Name>
+    <Telephone>01775622716</Telephone>
+  </DirectoryEntry>
+
+  <DirectoryEntry>
+    <Name>Susanne</Name>
+    <Telephone>015234347030</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Birgit</Name>
+    <Telephone>01732079533</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Kerstin</Name>
+    <Telephone>01624317786</Telephone>
+  </DirectoryEntry>
+
+  <DirectoryEntry>
+    <Name>Yvonne</Name>
+    <Telephone>015234386324</Telephone>
+  </DirectoryEntry>
+
+  <DirectoryEntry>
+    <Name>Laura (Buchhaltung)</Name>
+    <Telephone>01778088329</Telephone>
+  </DirectoryEntry>
+
+  <DirectoryEntry>
+    <Name>Alma (Fr. Bauer)</Name>
+    <Telephone>091189112922</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Alma Service - Stoppok</Name>
+    <Telephone>015254775163</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Kamed</Name>
+    <Telephone>0534131137</Telephone>
+  </DirectoryEntry>
+  <DirectoryEntry>
+    <Name>Istanbul</Name>
+    <Telephone>05115199093</Telephone>
+  </DirectoryEntry>
+
+</SnomIPPhoneDirectory>

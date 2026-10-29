@@ -1,0 +1,8 @@
+node_modules/
+dist/
+tmp/
+.svn/
+coverage/
+public/tmp/*
+!public/tmp/default-image.png
+*.log

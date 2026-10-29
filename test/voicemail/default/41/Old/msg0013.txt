@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-0000000e
+callerid="Sygusch Roland" <0511484717>
+origdate=Wed Aug 22 12:05:13 PM UTC 2018
+origtime=1534939513
+category=
+msg_id=1534939513-00000000
+flag=
+duration=53

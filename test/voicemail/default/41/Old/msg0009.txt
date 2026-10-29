@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-00000063
+callerid="03043025" <03043025>
+origdate=Mon Jul  2 12:41:48 PM UTC 2018
+origtime=1530535308
+category=
+msg_id=1530535308-00000006
+flag=
+duration=23

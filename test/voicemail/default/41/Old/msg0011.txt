@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-000000de
+callerid="015753002112" <015753002112>
+origdate=Tue Jul 17 01:10:28 PM UTC 2018
+origtime=1531833028
+category=
+msg_id=1531833028-0000000b
+flag=
+duration=6

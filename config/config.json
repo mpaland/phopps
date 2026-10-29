@@ -1,0 +1,41 @@
+// phone configuration
+{
+  // IP/hostname of the server, where this app runs - optional, normally self detected
+//  "host": "192.168.2.125",
+
+  // listen port
+  "port": 1080,
+
+  // configuration of all phones
+  "device": [
+    {
+      "name": "SEP002699F01CFA",
+      "ip": "192.168.2.161",
+      "model": "7975",
+      "username": "Marco",
+      "password": "1234",
+      "template": "phone_marco"
+    },
+    {
+      "name": "SEP00270DBD6712",
+      "ip": "192.168.1.210",
+      "model": "7975",
+      "username": "Marco",
+      "password": "1234",
+      "template": "phone_marco"
+    },
+    {
+      "name": "SEP002699F01CF3",
+      "ip": "192.168.2.162",
+      "model": "7975",
+      "username": "Marco",
+      "password": "1234",
+      "template": "phone_marco"
+    },
+    {
+      "name": "default",
+      "model": "SPA525",
+      "template": "phone_marco"
+    }
+  ]
+}

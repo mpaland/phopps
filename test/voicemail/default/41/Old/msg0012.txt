@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-000000f0
+callerid="0511433490" <0511433490>
+origdate=Fri Jul 20 10:20:36 AM UTC 2018
+origtime=1532082036
+category=
+msg_id=1532082036-0000000d
+flag=
+duration=30

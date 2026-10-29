@@ -1,0 +1,9 @@
+* text=auto
+*.gsm binary
+*.wav binary
+*.WAV binary
+*.alaw binary
+*.png binary
+*.jpg binary
+*.pdf binary
+test/voicemail/**/tmp/* binary

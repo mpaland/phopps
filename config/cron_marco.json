@@ -1,0 +1,249 @@
+// phone cron configuration
+{
+  "directory" : {
+    "applet": "menu",
+    "opt": {
+      "title"  : "Menu title",
+      "prompt" : "Prompt",
+      "item"   : [
+      {
+        "name" :  "Text display",
+        "applet": "text",
+        "opt"  : {
+          "title" : "The text title",
+          "text"  : "äüöÄÜÖß&\"'<>"
+        }
+      },
+      {
+        "name" :  "URL text display",
+        "applet": "text",
+        "opt"  : {
+          "url"   : "https://www.google.com"
+        }
+      },
+      {
+        "name":   "Image display",
+        "applet": "image",
+        "opt" : {
+          "title"   : "The image title",
+          "url"     : "https://www.loremflickr.com/320/240/landscape,beach",
+          "mode"    : "wide",
+          "convert" : "stretch",
+          "dither"  : true
+        }
+      },
+      {
+        "name":   "Online LDAP Test Server",
+        "applet": "phonebook",
+        "opt"  : {
+          "title"    : "Online LDAP Test Server",
+          "source"   : "ldap",
+          "url"      : "ldap://ldap.forumsys.com:389",
+          "binddn"   : "cn=read-only-admin,dc=example,dc=com",
+          "password" : "password"
+        }
+      },
+      {
+        "name":   "Virginia phonebook",
+        "applet": "phonebook",
+        "opt"  : {
+          "title"    : "Common phonebook for all users",
+          "source"   : "ldap",
+          "url"      : "ldap.virginia.edu:389",
+          "basedn"   : "o=University of Virginia,c=US",
+          "username" : "",
+          "password" : ""
+        }
+      },
+      {
+        "name":   "Company phonebook",
+        "applet": "phonebook",
+        "opt"  : {
+          "title"    : "Company phonebook",
+          "source"   : "xml",
+          "url"      : "192.168.2.80/phonebook.xml",
+          "file"     : "/home/marco/phonebook.xml"
+        }
+      },
+      {
+        "name" : "A direct URL",
+        "url"  : "http://www.andtek.com/xml/xml-four.html?device=SEP002699F01CFA"
+      },
+      {
+        "name" : "3 line dummy entry\r2. line\r3. line"
+      },
+      {
+        "applet": "background",
+        "name":   "Set Background",
+        "opt": {
+          "title": "Switch background",
+          "dir" : "/home/marco/backgrounds",
+          "sel" : "random", // ascend, descend
+          // url : "/home/marco/backgrounds/waves.jpg",
+          "url" : "http://www.paland.de/img.jpg",
+          "mode": "stretch"
+        }
+      },
+      {
+        "applet": "menu",
+        "name": "Second Menu Level",
+        "opt": {
+          "title"  : "Menu title",
+          "prompt" : "Prompt",
+          "item"   : [{
+            "applet": "text",
+            "name": "Text display",
+            "opt": {
+              "title" : "The text title",
+              "text"  : "Lore ipsum est!"
+            }
+          },
+          {
+            "applet": "image",
+            "name":   "Image display",
+            "opt": {
+              "title" : "The image title",
+              "url"   : "https://www.loremflickr.com/320/240/nude",
+              "mode"  : "wide",
+              "convert" : "original"
+            }
+          }]
+        }
+      }]
+    }
+  },
+
+  "messages" : {
+  },
+
+  "services" : {
+    "applet": "image",
+    "name":   "Wheater display",
+    "opt"  : {
+      "title" : "Hannover Wetter",
+      "url"   : "https://www.wetteronline.de/?ireq=true&pid=p_radar_map&src=wmapsextract/vermarktung/global2maps/$GMT(yyyy/MM/dd)/NIE/composite/$GMT(yyyyMMddHHmd)_NIE.jpeg",
+      "mode"  : "wide",
+      "convert" : "original",
+      "dither": false,
+      "crop"  : {
+        "x": 150,
+        "y": 300
+      },
+      "timeoffset": -200
+    }
+/*
+    "applet": "input",
+    "opt": {
+      "title"  : "The form title",
+      "prompt" : "Prompt",
+      "url"    : "http://target url",
+      "item"   : [
+      {
+        "name"  : "Item 1 name",
+        "param" : "url param",
+        "value" : "default vallue",
+        "flag"  : "P"
+      },
+      {
+        "name"  : "Item 2 name",
+        "param" : "url param",
+        "value" : "default vallue",
+        "flag"  : "P"
+      },
+      {
+        "name"  : "Item 3 name",
+        "param" : "url param",
+        "value" : "default vallue",
+        "flag"  : "P"
+      }]
+    }
+*/
+  },
+
+  "information" : {
+    "applet": "menu",
+    "opt": {
+      "title"  : "Menu title",
+      "prompt" : "Prompt",
+      "item"   : [
+      {
+        "applet": "phonebook",
+        "opt": {
+          "title"    : "Company phonebook",
+          "source"   : "xml",
+          "url"      : "192.168.2.80/phonebook.xml",
+          "file"     : "/home/marco/phonebook.xml"
+        }
+      },
+      {
+        "applet": "menu",
+        "opt": {
+          "title" : "This is a submenu",
+          "prompt" : "Prompt",
+          "item" : [
+          {
+            "applet": "text",
+            "name":   "Menu name",
+            "opt": {
+              "title" : "Text title",
+              "prompt" : "Test prompt",
+              "text" : "Lore ipsum est"
+            }
+          },
+          {
+            "applet": "text",
+            "opt": {
+              "title" : "2 Text title",
+              "prompt" : "2 Test prompt",
+              "text" : "Lore ipsum est"
+            }
+          }]
+        }
+      }]
+    }
+  },
+
+  "help" : {
+  },
+
+  "idle" : {
+  },
+
+  "cron" : [
+/*
+    {
+      "applet": "background-cisco",
+      "opt": {
+        "title": "Switch background",
+        "dir" : "//jukebox/media/pics/Unsorted",
+        "sel" : "random", // ascend, descend
+        // url : "/home/marco/backgrounds/waves.jpg",
+        // url : "http://www.loremflickr.com/320/240/landscape",
+        // "url" : "http://www.paland.de/img.jpg",
+        "convert": "fill"
+      },
+      "time" : "*_/10 * * * * *"
+    }
+*/
+    {
+      "applet": "background-cisco",
+      "opt": {
+        "title": "Switch background",
+        "url" : "https://www.antenne.com/services/webcam/Webcam-3.jpg?$RND(13)",
+        "convert": "fill",
+        "enhance": true
+      },
+      "time" : "*/30 * * * * *"
+    }
+/*
+    {
+      "applet": "sound",
+      "opt": {
+        "title": "Play a sound",
+        "file" : "soundfile"
+      },
+      "time" : "* * * * * *"
+    }
+*/
+  ]
+}

@@ -1,0 +1,18 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=41
+context=ext-group
+macrocontext=
+exten=10
+rdnis=unknown
+priority=3
+callerchan=PJSIP/anonymous-00000057
+callerid="01775553000" <01775553000>
+origdate=Sun Jul  1 06:54:57 PM UTC 2018
+origtime=1530471297
+category=
+msg_id=1530471297-00000004
+flag=
+duration=0
