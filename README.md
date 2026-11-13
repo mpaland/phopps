@@ -365,6 +365,17 @@ public/                static files served to the phones
 A new applet extends `Applet` (`src/applet/applet.ts`), implements `render(ctx)` returning
 `this.xml(ctx, xml)` and is added to `src/applet/registry.ts`.
 
+### Commits and releases
+
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), e.g.
+`feat(weather): add zoom option`, `fix(voicemail): keep lock on rename`, `docs: …`, `chore: …`.
+A `!` after the type or a `BREAKING CHANGE:` footer marks a breaking change.
+
+[release-please](https://github.com/googleapis/release-please) runs on every push to `main`
+(`.github/workflows/release-please.yml`) and keeps a release pull request up to date with the next
+version and the `CHANGELOG.md` entries. Merging that pull request creates the git tag and the GitHub
+release. `fix` bumps the patch, `feat` the minor and breaking changes the major version.
+
 ## License
 
 MIT, © Marco Paland
