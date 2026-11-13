@@ -1,6 +1,6 @@
 {
   "name": "phopps",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "PHOne aPPS framework - XML services for Cisco and Snom IP phones",
   "author": "Marco Paland",
   "license": "MIT",
